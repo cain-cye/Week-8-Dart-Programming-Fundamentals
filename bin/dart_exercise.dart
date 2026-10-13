@@ -7,40 +7,43 @@ void main() {
   print('Customer: $customerName');
   print('VIP Status: $isVIPMember\n');
 
-  for (int i = 0; i < itemPrices.length; i++) {
+  try {
+    double grandTotal = processOrderBatch(itemPrices, isVIPMember);
+    print('Grand Total for valid items: \$$grandTotal');
+  } catch (e) {
+    print('[GLOBAL ERROR]: $e');
+  }
+}
+
+double processOrderBatch(List<double> prices, bool isVIP) {
+  double total = 0.0;
+
+  for (int i = 0; i < prices.length; i++) {
     print('Processing Item #${i + 1}:');
 
     try {
-      double rawPrice = itemPrices[i];
+      double price = prices[i];
 
-      double finalPrice = processItemPrice(rawPrice, isVIPMember);
-      print(' Final calculated price: \$$finalPrice');
+      if (price < 0) {
+        throw FormatException('Item price cannot be negative (\$$price)');
+      }
+
+      double finalPrice = (isVIP && price > 200.0) ? price * 0.85 : price;
 
       if (finalPrice >= 300.0) {
-        print(' Category: Premium Purchase (Free Express Shipping)');
+        print(' Price: \$$finalPrice (Category: Premium - Free Express)');
       } else if (finalPrice >= 100.0) {
-        print(' Category: Standard Purchase (Standard Shipping)');
+        print(' Price: \$$finalPrice (Category: Standard)');
       } else {
-        print(' Category: Small Purchase (Handling Fee Applies)');
+        print(' Price: \$$finalPrice (Category: Small)');
       }
+
+      total += finalPrice;
 
     } catch (e) {
       print(' [ERROR CAUGHT]: $e');
     }
-
-  }
-}
-
-double processItemPrice(double price, bool isVIP) {
-  if (price < 0) {
-    throw FormatException('Item price cannot be negative (\$$price)');
   }
 
-  if (isVIP && price > 200.0) {
-    return price * 0.85;
-  } else if (price > 200.0) {
-    return price * 0.90;
-  }
-
-  return price;
-}
+  return total;
+}  
