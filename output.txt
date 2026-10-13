@@ -2,13 +2,11 @@ Customer: Xylos Leandro
 VIP Status: true
 
 Processing Item #1:
- Final calculated price: $212.4915
- Category: Standard Purchase (Standard Shipping)
+ Price: $212.4915 (Category: Standard)
 Processing Item #2:
  [ERROR CAUGHT]: FormatException: Item price cannot be negative ($-50)
 Processing Item #3:
- Final calculated price: $120
- Category: Standard Purchase (Standard Shipping)
+ Price: $120 (Category: Standard)
 Processing Item #4:
- Final calculated price: $382.5
- Category: Premium Purchase (Free Express Shipping)
+ Price: $382.5 (Category: Premium - Free Express)
+Grand Total for valid items: $714.9915
